@@ -61,24 +61,10 @@ Este projeto possui algumas especificações, apresentadas em forma de requisito
 -   As transferências entre contas são gratuitas e ilimitadas;
 
 Tomando por base estes requisitos, foi idealizado o seguinte banco de dados:
-|  Accounts  | 
-|--|
-| id: integer |
-| name: string |
-| cpf: string |
-| password: string |
-| balance: double |
-| createdAt: date|
-| updatedAt: date |
 
-|  Transfers  | 
-|--|
-| id: integer |
-| sender: integer |
-| receiver: integer |
-| value: double |
-| createdAt: date|
-| updatedAt: date |
+|Accounts|Transfers|
+|--|--|
+|<table> <tr></tr><tr><td>id: integer</td></tr> <tr><td>name: string</td></tr><tr><td>cpf: string</td></tr><tr><td>password: string</td></tr><tr><td>balance: double</td></tr><tr><td>createdAt: date</td></tr><tr><td>updatedAt: date</td></tr></table>| <table> <tr></tr><tr><td>id: integer</td></tr><tr><td>sender: integer</td></tr><tr><td>receiver: integer</td></tr><tr><td>value: double </td></tr><tr><td>createdAt: date</td></tr><tr><td>updatedAt: date</td></tr> </table>|
 
 Para melhor segurança e pensando em uma futura implementação de login, ou um sistema de tokens JWT, foi adicionado o atributo Password.
 
