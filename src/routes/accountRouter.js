@@ -8,6 +8,7 @@ router
   .get('/accounts/:id', AccountController.show)
   .post('/account', AccountController.create)
   .post('/account/deposit', AccountController.deposit)
+  .post('/account/withdrawal', AccountController.withdrawal)
   .post('/account/:id', AccountController.changePassword);
 
 module.exports = router;

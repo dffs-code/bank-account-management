@@ -16,8 +16,8 @@ class Accounts extends Model {
     });
   }
   static associate(models) {
-    // this.hasMany(models.transfers, { foreignKey: 'sender', as: 'sender'});
-    // this.hasMany(models.transfers, { foreignKey: 'receiver', as: 'receiver'});
+    this.hasMany(models.Transfers, { foreignKey: 'sender', as: 'sent_transfers'});
+    this.hasMany(models.Transfers, { foreignKey: 'receiver', as: 'received_transfers'});
   }
 }
 module.exports = Accounts;
