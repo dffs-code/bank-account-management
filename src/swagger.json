@@ -1,0 +1,222 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Bank Account Management",
+    "description": "Esta API REST consiste no gerenciamento de contas de banco, com algumas funcionalidades básicas, como depósito, transferências e saque.",
+    "contact": {
+      "name": "Daniel Formigoni",
+      "email": "formigoni.soares@gmail.com.br"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [{
+    "url": "http://localhost:3000",
+    "description": "API de testes"
+  }],
+  "paths": {
+    "/account": {
+      "post": {
+        "summary": "Cadastro de conta",
+        "description": "Esta rota é responsável por cadastrar uma nova conta do banco.",
+        "tags": ["Accounts"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Account"
+              },
+              "examples": {
+                "account": {
+                  "value": {
+                    "name": "John Doe",
+                    "cpf": "70701951095",
+                    "password": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "CPF Already Used"
+          },
+          "401": {
+            "description": "CPF Not Valid"
+          },
+          "201": {
+            "description": "Created Account"
+          }
+        }
+      }
+    },
+    "/account/deposit": {
+      "post": {
+        "summary": "Depósito Bancário",
+        "description": "Esta rota é responsável por depositar valor em uma conta.",
+        "tags": ["Accounts"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "cpf": {
+                    "type": "string",
+                    "minLength": "11",
+                    "maxLength": "11"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "cash": {
+                    "type": "number"
+                  }
+                }
+              },
+              "examples": {
+                "account": {
+                  "value": {
+                    "cpf": "70701951095",
+                    "password": "password",
+                    "cash": 10.2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid Cash Value"
+          },
+          "401": {
+            "description": "Invalid Password"
+          },
+          "404": {
+            "description": "Account Not found"
+          },
+          "200": {
+            "description": "Money Deposited"
+          }
+        }
+      }
+    },
+    "/account/withdrawal": {
+      "post": {
+        "summary": "Saque Bancário",
+        "description": "Esta rota é responsável por remover um valor de uma conta.",
+        "tags": ["Accounts"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "cpf": {
+                    "type": "string",
+                    "minLength": "11",
+                    "maxLength": "11"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "cash": {
+                    "type": "number"
+                  }
+                }
+              },
+              "examples": {
+                "account": {
+                  "value": {
+                    "cpf": "70701951095",
+                    "password": "password",
+                    "cash": 10.2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid Cash Value"
+          },
+          "401": {
+            "description": "Invalid Password"
+          },
+          "404": {
+            "description": "Account Not found"
+          },
+          "200": {
+            "description": "Withdrawn Money"
+          }
+        }
+      }
+    },
+    "/account/{id}": {
+      "post": {
+        "summary": "Mudança de Senha",
+        "description": "Esta rota é responsável pela mudança de senha de uma conta",
+        "tags": ["Accounts"],
+        "parameters": {
+          "name": "id",
+          "in": "path",
+          "description": "ID da conta bancária para segurança."
+        },
+          "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "cpf": {
+                    "type": "string",
+                    "minLength": "11",
+                    "maxLength": "11"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "account": {
+                  "value": {
+                    "cpf": "70701951095",
+                    "password": "newpassword"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "404": {
+            "description": "Incorrect Account or CPF"
+          },
+          "200": {
+            "description": "Password changed successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Account": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string",
+            "minLength": "11",
+            "maxLength": "11"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

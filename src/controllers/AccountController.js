@@ -6,27 +6,27 @@ const generateHashedPassword = require('../utils/generateHashedPassword');
 module.exports = {
   async create(req, res) {
     try {
-      const { name } = req.body;
+      const { name, password } = req.body;
       const sentCpf = req.body.cpf;
       if (cpf.isValid(sentCpf)) {
 
         const response = await Accounts.create({
           name,
           cpf: sentCpf,
-          password: generateHashedPassword(req.body.password),
+          password: generateHashedPassword(password),
         });
         /**
          * não é enviado o response do cadastro para o client por questão de segurança
          */
-        if(response) return res.status(201);
+        if(response) return res.status(201).send();
 
       } else {
-        return res.status(403).json({ message: 'CPF Not Valid' })
+        return res.status(401).json({ message: 'CPF Not Valid' })
       }
 
     } catch (error) {
       //se o cpf já está sendo utilizado
-      if(error.name === 'SequelizeUniqueConstraintError') return res.status(401).json({ message: 'CPF Already Used' });
+      if(error.name === 'SequelizeUniqueConstraintError') return res.status(400).json({ message: 'CPF Already Used' });
       
       console.log(error)
       return res.status(500).send({ message: error });
