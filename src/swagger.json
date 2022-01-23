@@ -9,21 +9,38 @@
     },
     "version": "1.0.0"
   },
-  "servers": [{
-    "url": "http://localhost:3000",
-    "description": "API de testes"
-  }],
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "API de testes"
+    }
+  ],
   "paths": {
     "/account": {
       "post": {
         "summary": "Cadastro de conta",
         "description": "Esta rota é responsável por cadastrar uma nova conta do banco.",
-        "tags": ["Accounts"],
+        "tags": [
+          "Accounts"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Account"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "cpf": {
+                    "type": "string",
+                    "minLength": "11",
+                    "maxLength": "11"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
               },
               "examples": {
                 "account": {
@@ -50,11 +67,63 @@
         }
       }
     },
+    "/account/{id}": {
+      "post": {
+        "summary": "Mudança de Senha",
+        "description": "Esta rota é responsável pela mudança de senha de uma conta",
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da conta bancária para segurança."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "cpf": {
+                    "type": "string",
+                    "minLength": "11",
+                    "maxLength": "11"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "account": {
+                  "value": {
+                    "cpf": "70701951095",
+                    "password": "newpassword"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "404": {
+            "description": "Incorrect Account or CPF"
+          },
+          "200": {
+            "description": "Password changed successfully"
+          }
+        }
+      }
+    },
     "/account/deposit": {
       "post": {
         "summary": "Depósito Bancário",
         "description": "Esta rota é responsável por depositar valor em uma conta.",
-        "tags": ["Accounts"],
+        "tags": [
+          "Accounts"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -105,7 +174,9 @@
       "post": {
         "summary": "Saque Bancário",
         "description": "Esta rota é responsável por remover um valor de uma conta.",
-        "tags": ["Accounts"],
+        "tags": [
+          "Accounts"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -151,49 +222,226 @@
           }
         }
       }
-    },
-    "/account/{id}": {
-      "post": {
-        "summary": "Mudança de Senha",
-        "description": "Esta rota é responsável pela mudança de senha de uma conta",
-        "tags": ["Accounts"],
-        "parameters": {
-          "name": "id",
-          "in": "path",
-          "description": "ID da conta bancária para segurança."
-        },
-          "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "cpf": {
-                    "type": "string",
-                    "minLength": "11",
-                    "maxLength": "11"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                }
-              },
-              "examples": {
-                "account": {
-                  "value": {
-                    "cpf": "70701951095",
-                    "password": "newpassword"
+    },  
+    "/accounts": {
+      "get": {
+        "summary": "Buscar Todas as Contas",
+        "description": "Esta rota é responsável por buscar todas as contas",
+        "tags": [
+          "Accounts"
+        ],
+        "responses": {
+          "404": {
+            "description": "No Accounts Registered"
+          },
+          "200": {
+            "description": "Account Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": ""
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "cpf": {
+                        "type": "string",
+                        "minLength": "11",
+                        "maxLength": "11"
+                      },
+                      "balance": {
+                        "type": "number"
+                      },
+                      "sent_transfers": {
+                        "type": "array"
+                      },
+                      "received_transfers": {
+                        "type": "array"
+                      }
+                    }
                   }
                 }
               }
             }
           }
-        },
+        }
+      }
+    },
+    "/accounts/{id}": {
+      "get": {
+        "summary": "Buscar Conta por Id",
+        "description": "Esta rota é responsável por buscar uma conta pelo seu Id",
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da conta bancária.",
+            "required": true
+          }
+        ],
         "responses": {
           "404": {
-            "description": "Incorrect Account or CPF"
+            "description": "Account Not Found"
           },
           "200": {
-            "description": "Password changed successfully"
+            "description": "Account Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "cpf": {
+                      "type": "string",
+                      "minLength": "11",
+                      "maxLength": "11"
+                    },
+                    "balance": {
+                      "type": "number"
+                    },
+                    "sent_transfers": {
+                      "type": "array"
+                    },
+                    "received_transfers": {
+                      "type": "array"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transfers": {
+      "get": {
+        "summary": "Buscar Todas as Transferências",
+        "description": "Esta rota é responsável por buscar o histórico de transferências.",
+        "tags": [
+          "Transfers"
+        ],
+        "responses": {
+          "404": {
+            "description": "No Transfers Registered"
+          },
+          "200": {
+            "description": "Transfers Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "sender": {
+                        "type": "integer"
+                      },
+                      "receiver": {
+                        "type": "integer"
+                      },
+                      "value": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tranfers/{id}": {
+      "get": {
+        "summary": "Buscar Transferência por Id",
+        "description": "Esta rota é responsável por buscar uma transferência pelo seu Id",
+        "tags": [
+          "Transfers"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da transferência bancária.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Transfer Not Found"
+          },
+          "200": {
+            "description": "Transfer Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "sender": {
+                      "type": "integer"
+                    },
+                    "receiver": {
+                      "type": "integer"
+                    },
+                    "value": {
+                      "type": "number"
+                    },
+                    "createdAt": {
+                      "type": "date"
+                    },
+                    "updatedAt": {
+                      "type": "date"
+                    },
+                    "sender_account": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "cpf": {
+                          "type": "string"
+                        },
+                        "balance": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "receiver_account": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "cpf": {
+                          "type": "string"
+                        },
+                        "balance": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -214,6 +462,26 @@
           },
           "password": {
             "type": "string"
+          },
+          "balance": {
+            "type": "number"
+          }
+        }
+      },
+      "Transfer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "sender": {
+            "type": "integer"
+          },
+          "receiver": {
+            "type": "integer"
+          },
+          "value": {
+            "type": "number"
           }
         }
       }

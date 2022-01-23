@@ -48,9 +48,16 @@ module.exports = {
 
   async index(req, res) {
     try {
-        const response = await Transfers.findAll(); 
+        const response = await Transfers.findAll({
+          attributes: [
+          'id',
+          'sender',
+          'receiver',
+          'value'
+        ]
+        }); 
         res.status(200).json(response);
-      if(!response) res.status(404).json({ message: 'No Account found'})
+      if(!response) res.status(404).json({ message: 'No Transfers Registered'})
     } catch (error) {
       console.log(error)
       res.status(500).json(error);

@@ -7,7 +7,7 @@ module.exports = {
   async create(req, res) {
     try {
       const { name, password } = req.body;
-      const sentCpf = req.body.cpf;
+      const sentCpf = req.body.cpf.toString();;
       if (cpf.isValid(sentCpf)) {
 
         const response = await Accounts.create({
@@ -89,7 +89,7 @@ module.exports = {
   async deposit(req, res) {
     try {
       const { cash, password } = req.body;
-      const sentCpf = req.body.cpf;
+      const sentCpf = req.body.cpf.toString();;
 
       if (cpf.isValid(sentCpf)) {
         const account = await Accounts.findOne({
@@ -136,7 +136,7 @@ module.exports = {
   async withdrawal(req, res) {
     try {
       const { cash, password } = req.body;
-      const sentCpf = req.body.cpf;
+      const sentCpf = req.body.cpf.toString();;
 
       if (cpf.isValid(sentCpf)) {
         const account = await Accounts.findOne({
@@ -191,7 +191,7 @@ module.exports = {
       */
       const { id } = req.params;
       const { password } = req.body;
-      const sentCpf = req.body.cpf;
+      const sentCpf = req.body.cpf.toString();;
 
       if (cpf.isValid(sentCpf)) {
         const account = await Accounts.findOne({
