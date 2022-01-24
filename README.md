@@ -34,12 +34,6 @@ npx sequelize-cli db:migrate
 ```
 Este comando irá fazer a conexão com o banco de dados recém-criado e criar as tabelas através das *migrations*.
 
-O comando utilizado para popular o banco de dados de forma automática, para realizar testes na API se encontra abaixo: 
-```
-npx sequelize-cli db:seed:all
-```
-Este comando irá rodar arquivos de dentro da API que inserem dados automaticamente nas tabelas descritas no projeto, sem necessidade de fazê-lo por um processo manual.
-
 ## Rodar o servidor
 
 Para rodar o servidor localmente, em ambiente de desenvolvimento, há a possibilidade de rodar o seguinte comando:

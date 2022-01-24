@@ -16,6 +16,104 @@
     }
   ],
   "paths": {
+    "/accounts": {
+      "get": {
+        "summary": "Buscar Todas as Contas",
+        "description": "Esta rota é responsável por buscar todas as contas",
+        "tags": [
+          "Accounts"
+        ],
+        "responses": {
+          "404": {
+            "description": "No Accounts Registered"
+          },
+          "200": {
+            "description": "Account Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": ""
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "cpf": {
+                        "type": "string",
+                        "minLength": "11",
+                        "maxLength": "11"
+                      },
+                      "balance": {
+                        "type": "number"
+                      },
+                      "sent_transfers": {
+                        "type": "array"
+                      },
+                      "received_transfers": {
+                        "type": "array"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{id}": {
+      "get": {
+        "summary": "Buscar Conta por Id",
+        "description": "Esta rota é responsável por buscar uma conta pelo seu Id",
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da conta bancária.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Account Not Found"
+          },
+          "200": {
+            "description": "Account Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "cpf": {
+                      "type": "string",
+                      "minLength": "11",
+                      "maxLength": "11"
+                    },
+                    "balance": {
+                      "type": "number"
+                    },
+                    "sent_transfers": {
+                      "type": "array"
+                    },
+                    "received_transfers": {
+                      "type": "array"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/account": {
       "post": {
         "summary": "Cadastro de conta",
@@ -223,104 +321,6 @@
         }
       }
     },  
-    "/accounts": {
-      "get": {
-        "summary": "Buscar Todas as Contas",
-        "description": "Esta rota é responsável por buscar todas as contas",
-        "tags": [
-          "Accounts"
-        ],
-        "responses": {
-          "404": {
-            "description": "No Accounts Registered"
-          },
-          "200": {
-            "description": "Account Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "type": ""
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "cpf": {
-                        "type": "string",
-                        "minLength": "11",
-                        "maxLength": "11"
-                      },
-                      "balance": {
-                        "type": "number"
-                      },
-                      "sent_transfers": {
-                        "type": "array"
-                      },
-                      "received_transfers": {
-                        "type": "array"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/accounts/{id}": {
-      "get": {
-        "summary": "Buscar Conta por Id",
-        "description": "Esta rota é responsável por buscar uma conta pelo seu Id",
-        "tags": [
-          "Accounts"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID da conta bancária.",
-            "required": true
-          }
-        ],
-        "responses": {
-          "404": {
-            "description": "Account Not Found"
-          },
-          "200": {
-            "description": "Account Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "name": {
-                      "type": "string"
-                    },
-                    "cpf": {
-                      "type": "string",
-                      "minLength": "11",
-                      "maxLength": "11"
-                    },
-                    "balance": {
-                      "type": "number"
-                    },
-                    "sent_transfers": {
-                      "type": "array"
-                    },
-                    "received_transfers": {
-                      "type": "array"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/transfers": {
       "get": {
         "summary": "Buscar Todas as Transferências",
@@ -442,6 +442,59 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/transfer": {
+      "post": {
+        "summary": "Registro de Transferência",
+        "description": "Esta rota é responsável por registrar uma transferência entre contas.",
+        "tags": [
+          "Transfers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sender": {
+                    "type": "integer"
+                  },
+                  "receiver": {
+                    "type": "integer"
+                  },
+                  "value": {
+                    "type": "number"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "transfer": {
+                  "value": {
+                    "sender": 2,
+                    "receiver": 8,
+                    "value": 50.4,
+                    "password": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Your balance cannot be negative || Invalid Data Types || Password Verify Error"
+          },
+          "401": {
+            "description": "Invalid Password || You cannot transfer to yourself || Invalid Transfer Value"
+          },
+          "201": {
+            "description": "Registered Transfer"
           }
         }
       }
