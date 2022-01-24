@@ -11,13 +11,10 @@ module.exports = {
       if (sender == receiver)
         return res.status(401).json({ message: 'You cannot transfer to yourself' });
 
-<<<<<<< HEAD
       // valor da transferência não pode ser menor ou igual a zero
       if (value <= 0)  
-=======
       // valor da transferência não pode ser menor ou igual a zero e nem maior que 2000
       if (value <= 0 || value > 2000)  
->>>>>>> 64db759f5cf98bcc5d4706e2c389488f329e73fc
         return res.status(401).json({ message: 'Invalid Transfer Value' });
 
       const senderAccount = await Accounts.findByPk(sender);

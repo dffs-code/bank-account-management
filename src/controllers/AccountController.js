@@ -7,14 +7,10 @@ module.exports = {
   async create(req, res) {
     try {
       const { name, password } = req.body;
-<<<<<<< HEAD
-      const sentCpf = req.body.cpf.toString();
 
       if(password === '') return res.status(400).json({message: "Password cannot be null"})
 
-=======
-      const sentCpf = req.body.cpf.toString();;
->>>>>>> 64db759f5cf98bcc5d4706e2c389488f329e73fc
+      const sentCpf = req.body.cpf.toString();
       if (cpf.isValid(sentCpf)) {
 
         const response = await Accounts.create({
@@ -96,13 +92,11 @@ module.exports = {
   async deposit(req, res) {
     try {
       const { cash, password } = req.body;
-<<<<<<< HEAD
-      const sentCpf = req.body.cpf.toString();
 
       if(cash <= 0 || cash > 2000) return res.status(400).json({message: 'Invalid Cash Value'});
-=======
-      const sentCpf = req.body.cpf.toString();;
->>>>>>> 64db759f5cf98bcc5d4706e2c389488f329e73fc
+
+      const sentCpf = req.body.cpf.toString();
+
 
       if (cpf.isValid(sentCpf)) {
         const account = await Accounts.findOne({
@@ -117,11 +111,9 @@ module.exports = {
             if (err) res.status(400).json({ error: err });
 
             if (result) {
-<<<<<<< HEAD
-=======
-              
+          
               if(cash <= 0 || cash > 2000) return res.status(400).json({message: 'Invalid Cash Value'});
->>>>>>> 64db759f5cf98bcc5d4706e2c389488f329e73fc
+
 
               const newBalance = account.balance + cash;
               const response = await account.update({
@@ -152,13 +144,10 @@ module.exports = {
   async withdrawal(req, res) {
     try {
       const { cash, password } = req.body;
-<<<<<<< HEAD
-      const sentCpf = req.body.cpf.toString();
 
       if(cash <= 0 || cash > 2000) return res.status(400).json({message: 'Invalid Cash Value'});
-=======
-      const sentCpf = req.body.cpf.toString();;
->>>>>>> 64db759f5cf98bcc5d4706e2c389488f329e73fc
+      const sentCpf = req.body.cpf.toString();
+
 
       if (cpf.isValid(sentCpf)) {
         const account = await Accounts.findOne({
@@ -173,11 +162,8 @@ module.exports = {
             if (err) res.status(400).json({ error: err });
 
             if (result) {
-              
-<<<<<<< HEAD
-=======
               if(cash <= 0 || cash > 2000) return res.status(400).json({message: 'Invalid Cash Value'});
->>>>>>> 64db759f5cf98bcc5d4706e2c389488f329e73fc
+
 
               const newBalance = account.balance - cash;
               const response = await account.update({
@@ -216,11 +202,9 @@ module.exports = {
       */
       const { id } = req.params;
       const { password } = req.body;
-<<<<<<< HEAD
+
       const sentCpf = req.body.cpf.toString();
-=======
-      const sentCpf = req.body.cpf.toString();;
->>>>>>> 64db759f5cf98bcc5d4706e2c389488f329e73fc
+
 
       if (cpf.isValid(sentCpf)) {
         const account = await Accounts.findOne({
