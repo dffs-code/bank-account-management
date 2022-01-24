@@ -154,7 +154,11 @@
         },
         "responses": {
           "400": {
+<<<<<<< HEAD
             "description": "CPF Already Used || Password cannot be null"
+=======
+            "description": "CPF Already Used"
+>>>>>>> 64db759f5cf98bcc5d4706e2c389488f329e73fc
           },
           "401": {
             "description": "CPF Not Valid"

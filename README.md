@@ -41,12 +41,15 @@ Para rodar o servidor localmente, em ambiente de desenvolvimento, há a possibil
 `npm run dev` ou `yarn dev`
 
 Este comando ativa o nodemon, que roda o servidor escutando possíveis mudanças no código.
+<<<<<<< HEAD
 
 Para rodar os testes da aplicação implementados em jest, basta, após ter criado o banco de dados e suas migrations, rodar o seguinte comando:
 
 `npm run test` ou `yarn test`
 
 Este comando fará os testes unitários e de integração da aplicação.
+=======
+>>>>>>> 64db759f5cf98bcc5d4706e2c389488f329e73fc
 Caso queira somente rodar o servidor, sem a necessidade de mudar nada no código, basta rodar o comando a seguir:
 
 `npm run start` ou `yarn start`
