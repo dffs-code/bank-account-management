@@ -51,6 +51,8 @@ Caso queira somente rodar o servidor, sem a necessidade de mudar nada no código
 
 `npm run start` ou `yarn start`
 
+### Após abrir o servidor, é possível acessar a documentação com as rotas na rota '/docs'
+
 # Especificações do projeto
 Este projeto possui algumas especificações, apresentadas em forma de requisitos funcionais a seguir:
 
