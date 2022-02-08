@@ -72,6 +72,7 @@ module.exports = {
     try {
       const { cash, password } = req.body;
 
+      //valida valores a serem inseridos no banco
       if (cash <= 0 || cash > 2000) return res.status(400).json({ message: 'Invalid Cash Value' });
 
       const sentCpf = req.body.cpf.toString();
@@ -91,9 +92,6 @@ module.exports = {
 
             //verifica se o resultado foi negativo e retorna 401 caso seja
             if (!result) return res.status(401).json({ isCorrect: result, message: 'Invalid Password' });
-
-            //valida valores a serem inseridos no banco
-            if (cash <= 0 || cash > 2000) return res.status(400).json({ message: 'Invalid Cash Value' });
 
             const newBalance = account.balance + cash;
 
