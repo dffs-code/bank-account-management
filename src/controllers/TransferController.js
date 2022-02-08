@@ -5,51 +5,24 @@ const bcrypt = require('bcrypt');
 module.exports = {
   async create(req, res) {
     try {
-      const { sender, receiver, value, password } = req.body;
 
-      // remetente e destinatário não podem ser o mesmo valor
-      if (sender == receiver)
-        return res.status(401).json({ message: 'You cannot transfer to yourself' });
+      const { newSenderBalance, newReceiverBalance, payload, senderAccount_id, receiverAccount_id } = req;
 
-      // valor da transferência não pode ser menor ou igual a zero
-      if (value <= 0)  
-      // valor da transferência não pode ser menor ou igual a zero e nem maior que 2000
-      if (value <= 0 || value > 2000)  
-        return res.status(401).json({ message: 'Invalid Transfer Value' });
-
-      const senderAccount = await Accounts.findByPk(sender);
-      const receiverAccount = await Accounts.findByPk(receiver);
-
-      if ((senderAccount.balance - value) < 0)
-        return res.status(400).json({ message: 'Your balance cannot be negative' })
-      //a transferência não pode deixar o remetente com valor negativo na conta
-
-      bcrypt.compare(password, senderAccount.password, async (err, result) => {
-        if (err) 
-        return res.status(400).json({ error: err }); //erro na comparação
-
-        if (result) { //se o resultado da comparação foi true, a senha está correta
-          const sending = await senderAccount.update({
-            balance: senderAccount.balance -= value
-          })
-          const receiving = await receiverAccount.update({
-            balance: receiverAccount.balance += value
-          })
-          if (sending && receiving) {
-            const response = await Transfers.create({
-              sender,
-              receiver,
-              value
-            })
-            return res.status(201).json(response);
-          }
-        } else {
-          return res.status(401).json({
-            isCorrect: result,
-            message: 'Invalid Password'
-          })
+      const sent = await Accounts.update(newSenderBalance, { 
+        where: {
+          id: senderAccount_id
+        } 
+      })
+      const received = await Accounts.update(newReceiverBalance, { 
+        where: { 
+          id: receiverAccount_id
         }
-      });
+      })
+      
+      if (sent && received) {
+        const response = await Transfers.create(payload)
+        return res.status(201).json(response);
+      }
     } catch (error) {
       console.log(error)
       if (error.parent.errno === 1265) {

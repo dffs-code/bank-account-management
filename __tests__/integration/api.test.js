@@ -53,7 +53,7 @@ describe('Depositing Cash on Account', () => {
   it('Should deposit R$ 20,50 on first account', async () => {
     await request(app).post('/account/deposit').send({
       "cash": 20.50,
-      "cpf": "70701951095",
+      "cpf": 70701951095,
       "password": "password"
     }).then((response) => {
       expect(response.status).toBe(200);
@@ -63,7 +63,7 @@ describe('Depositing Cash on Account', () => {
   it('Should not deposit more than R$ 2000', async () => {
     await request(app).post('/account/deposit').send({
       "cash": 2050,
-      "cpf": "70701951095",
+      "cpf": 70701951095,
       "password": "password"
     }).then((response) => {
       expect(response.status).toBe(400);
